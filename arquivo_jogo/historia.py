@@ -1,4 +1,4 @@
-# funcoes_historia.py
+# play.py
 
 import time
 import os
