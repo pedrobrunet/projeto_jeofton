@@ -1,6 +1,6 @@
 # historia.py
 
-from historia import introducao_jogo, aviso_inicial  # Importando funções de funcoes_historia.py
+from historia import introducao_jogo, aviso_inicial  # Importando funções de play.py
 
 
 def main():
