@@ -21,3 +21,6 @@ def introducao_jogo(nome):
 
 def aviso_inicial(nome):
     digitar(f"⚠️ AVISO IMPORTANTE, {nome}! Tudo o que você faz aqui afeta o mundo real.")
+
+
+print("teste")
