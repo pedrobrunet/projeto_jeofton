@@ -28,24 +28,16 @@ class Application:
       
         #nones
         self.label_boas_vindas= None
-        
-        #BOTÃO DE START
-        botao_start = tk.Button(self.janela, text= "▶ START", width=20, height=2,fg= "white",bg="red", command=self.mostrar_campo_nome, font=("Consolas", 16, "bold"))
-        botao_start.place(relx=0.5, rely=0.650, anchor="center")
-        botao_start.bind("<Enter>", self.on_enter)
-        botao_start.bind("<Leave>", self.on_leave)
+            
 
-    #hover do botao
-    def on_enter(self, event):
-        event.widget.config(bg="#ff1a1a", fg="white")  # vermelho mais claro ao passar o mouse
-    #hover do botao
-    def on_leave(self, event):
-        event.widget.config(bg="red", fg="white")  # volta ao normal
-
+    #limpar a tela
     def limpar_tela(self):
         for widget in self.janela.winfo_children(): 
             widget.destroy()
-
+            
+  
+  
+  
     def intro(self):
         self.mensagem_inicial.set(" VOCÊ FOI PRESO ")
         #label da intro
@@ -74,20 +66,40 @@ class Application:
         #barras laterais 3
         linha_lat3= tk.Frame(self.janela, bg="#a50b0b", width=15, height=1537)
         linha_lat3.place(relx=0.99, rely=0.4, anchor="w")
+        #BOTAO START
+        botao_start = tk.Button(self.janela, text= "▶ START", width=20, height=2,fg= "white",bg="red", command=self.mostrar_campo_nome, font=("Consolas", 16, "bold"))
+        botao_start.place(relx=0.5, rely=0.650, anchor="center")
+        botao_start.bind("<Enter>", self.on_enter)
+        botao_start.bind("<Leave>", self.on_leave)
         
+    #hover do botao de start
+    def on_enter(self, event):
+        event.widget.config(bg="#701b1b", fg="white")  # vermelho mais claro ao passar o      
+    def on_leave(self, event):
+        event.widget.config(bg="red", fg="white")  # volta ao normal
+
+      #BOTAO VOLTAR PRA TELA INICIAL
+    def botao_inicial(self):
+        botao_volta_inicio = tk.Button(self.janela, text="Volte para tela inicial", command= self.voltar_para_inicio, font=("Helvetica", 14), bg="#222", fg="white")
+        botao_volta_inicio.place(relx=0.5, rely=0.9, anchor="center")
+
+       #AO CLICAR NO BOTAO ELE LIMPA A TELA E MANDA PRA TELA INICIAL
+    def voltar_para_inicio(self):
+        self.limpar_tela()
+        self.intro()
+     
     def mostrar_campo_nome(self):
         self.limpar_tela()
+        self.botao_inicial()
+        
         #mensagem informando o usuario a digitar o nome
         self.texto.set("DIGITE O NOME DO SEU PERSONAGEM:")
-        label_texto = tk.Label(self.janela, textvariable=self.texto, fg="red", bg="#000000", font=("Helvetica", 20), wraplength=800, justify="center")
+        label_texto = tk.Label(self.janela, textvariable=self.texto, fg="red", bg="#1a1a1a", font=("Impact", 27), wraplength=800, justify="center")
         label_texto.place(relx=0.5, rely=0.2, anchor="center") 
         self.nome_mensagem.set("")
-         #label da mensagem de "Digite o nome do seu personagem: "
-        label_nome_mensagem = tk.Label(self.janela, textvariable=self.mostrar_campo_nome, fg="red", bg="#000000", font=("Helvetica", 30), wraplength=700, justify="left")
-        label_nome_mensagem.place(relx=0.5, rely=0.3, anchor="center")
         
         # entry 
-        self.entry_nome = tk.Entry(self.janela, textvariable=self.nome_mensagem, fg="red", bg="#000000", font=("Helvetica", 14), justify="center")
+        self.entry_nome = tk.Entry(self.janela, textvariable=self.nome_mensagem, fg="red", bg="#1a1a1a", font=("Helvetica", 14), justify="center", insertbackground="red")
         self.entry_nome.place(relx=0.5, rely=0.4, anchor="center")
         
         #botao de confirmar
@@ -95,12 +107,17 @@ class Application:
         self.botao_confirmar.place(relx=0.5, rely=0.470, anchor="center")
     
     def pegar_nome(self):
+         #frame atras do texto
+        fundo = tk.Frame(self.janela, bg="red", width=700, height=100)
+        fundo.place(relx=0.5, rely=0.7, anchor="center")
         nome_digitado = self.nome_mensagem.get()
         self.boas_vindas.set(f"Olá, {nome_digitado}. Bem-vindo(a) à sua nova realidade: uma cela fria e silenciosa. Você foi preso(a)... mas não sabe exatamente por quê. Suas escolhas daqui em diante serão cruciais. Cada decisão pode te levar à liberdade — ou te condenar para sempre. Está pronta para enfrentar as sombras dessa prisão?")
 
         # texto de boas vindas so aparece depois do botao
         if self.label_boas_vindas is None:
-            self.label_boas_vindas = tk.Label(self.janela, textvariable=self.boas_vindas, fg="red", bg="#000000",font=("Helvetica", 14), wraplength=500, justify="center")
+            self.label_boas_vindas = tk.Label(self.janela, textvariable=self.boas_vindas, fg="white", bg="red",font=("Impact", 14), wraplength=700, justify="center")
             self.label_boas_vindas.place(relx=0.5, rely=0.7, anchor="center")
+        
+
 
 app = Application()
