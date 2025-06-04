@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b859037c-3a96-4881-96c7-b2e047065b8b" name="Changes" comment="" />
+    <list default="true" id="b859037c-3a96-4881-96c7-b2e047065b8b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arquivo_jogo/historia.py" beforeDir="false" afterPath="$PROJECT_DIR$/arquivo_jogo/historia.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arquivo_jogo/play.py" beforeDir="false" afterPath="$PROJECT_DIR$/arquivo_jogo/play.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,6 +39,7 @@
   "keyToString": {
     "Python.funcoes_historia.executor": "Run",
     "Python.historia.executor": "Run",
+    "Python.interface.executor": "Run",
     "Python.play.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
