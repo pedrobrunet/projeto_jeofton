@@ -40,8 +40,22 @@ class Application:
     def limpar_tela(self):
         for widget in self.janela.winfo_children(): 
             widget.destroy()
-  
+    def linhas(self):
+        #barras laterais 1 
+        linha_lat1= tk.Frame(self.janela, bg="#a50b0b", width=1537, height=15)
+        linha_lat1.place(relx=0.5, rely=0.01, anchor="center")
+        #barras laterais 2
+        linha_lat2= tk.Frame(self.janela, bg="#a50b0b", width=1537, height=15)
+        linha_lat2.place(relx=0.5, rely=0.99, anchor="center")
+        #barras laterais 3
+        linha_lat3= tk.Frame(self.janela, bg="#a50b0b", width=15, height=1537)
+        linha_lat3.place(relx=0.01, rely=0.4, anchor="e")
+        #barras laterais 4
+        linha_lat4= tk.Frame(self.janela, bg="#a50b0b", width=15, height=1537)
+        linha_lat4.place(relx=0.99, rely=0.4, anchor="w")
+        
     def intro(self):
+        self.linhas()
         self.mensagem_inicial.set(" VOCÊ FOI PRESO ")
         #label da intro
         label_intro = tk.Label(self.janela, textvariable=self.mensagem_inicial, fg="red", bg="#1a1a1a", font=("Impact", 45, "bold"), wraplength=800, justify="left")
@@ -57,18 +71,6 @@ class Application:
         #linha decorativa (frame)
         linha_decorativa= tk.Frame(self.janela, bg="#ffffff", width=390, height=2)
         linha_decorativa.place(relx=0.5, rely=0.467, anchor="center")
-        #barras laterais 1 
-        linha_lat1= tk.Frame(self.janela, bg="#a50b0b", width=1537, height=15)
-        linha_lat1.place(relx=0.5, rely=0.01, anchor="center")
-        #barras laterais 2
-        linha_lat2= tk.Frame(self.janela, bg="#a50b0b", width=1537, height=15)
-        linha_lat2.place(relx=0.5, rely=0.99, anchor="center")
-        #barras laterais 3
-        linha_lat3= tk.Frame(self.janela, bg="#a50b0b", width=15, height=1537)
-        linha_lat3.place(relx=0.01, rely=0.4, anchor="e")
-        #barras laterais 4
-        linha_lat4= tk.Frame(self.janela, bg="#a50b0b", width=15, height=1537)
-        linha_lat4.place(relx=0.99, rely=0.4, anchor="w")
         #BOTAO START
         botao_start = tk.Button(self.janela, text= "▶ START", width=20, height=2,fg= "white",bg="red", command=self.mostrar_campo_nome, font=("Consolas", 16, "bold"))
         botao_start.place(relx=0.5, rely=0.650, anchor="center")
@@ -116,13 +118,21 @@ class Application:
     
     def pegar_nome(self):
         nome_digitado = self.nome_mensagem.get()
+        self.nome_jogador = nome_digitado
         self.texto_completo= (f"Olá, {nome_digitado}. Bem-vindo(a) à sua nova realidade: uma cela fria e silenciosa. Você foi preso(a)... mas não sabe exatamente por quê. Suas escolhas daqui em diante serão cruciais. Cada decisão pode te levar à liberdade — ou te condenar para sempre. Está pronta para enfrentar as sombras dessa prisão?")
 
         # Criar a label para texto animado
         if self.label_boas_vindas is None:
             self.label_boas_vindas = tk.Label(self.janela, text="", fg="white", bg="#1a1a1a",font=("Courier New", 11), wraplength=700, justify="center")
             self.label_boas_vindas.place(relx=0.5, rely=0.7, anchor="center")
-            
+            #botao de proximo
+            self.botao_proximo = tk.Button(self.janela, text="Próximo", bg="red", fg="white", command=self.mostrar_escolha_nivel_um)
+            self.botao_proximo.place(relx=0.9, rely=0.9, anchor="w")
+            #hover do botao de proximo
+            self.botao_proximo.bind("<Enter>", self.on_enter)
+            self.botao_proximo.bind("<Leave>", self.on_leave)
+
+
         # Resetar variáveis para nova animação
         self.texto_atual = ""
         self.indice_char = 0
@@ -140,7 +150,7 @@ class Application:
             self.label_boas_vindas.config(text=self.texto_atual)
             
             # Velocidade da digitação (menor = mais rápido)
-            velocidade = 50  # milissegundos entre cada caractere
+            velocidade = 35  # milissegundos entre cada caractere
             
             # Pausa mais longa em pontuações para dar ritmo
             if self.texto_completo[self.indice_char - 1] in '.!?':
@@ -151,6 +161,57 @@ class Application:
             # Agendar próxima atualização
             self.after_id = self.janela.after(velocidade, self.animar_digitacao)
 
+    def mostrar_escolha_nivel_um(self):
+        self.limpar_tela()
+        self.linhas()
+        self.botao_inicial()
+        titulo= "NÍVEL 1  - O Despertar"
+        label_titulo= tk.Label(self.janela, text=titulo, fg="red", bg="#1a1a1a", font=("Impact", 17), justify="center")
+        label_titulo.place(relx=0.5, rely=0.1, anchor="center")
+        texto = "Você desperta em uma cela úmida e mal iluminada. O que deseja fazer?"
+        label_texto = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
+        label_texto.place(relx=0.5, rely=0.2, anchor="center")
+
+        botao_a = tk.Button(self.janela, text="A - Investigar a cela", fg="white" , bg="#75010b", command=self.investigacao_cela, width=27, height=2)
+        botao_a.place(relx=0.199, rely=0.6, anchor="center")
+
+        botao_b = tk.Button(self.janela, text="B - Chamar por alguém", fg="white", bg="#75010b", command=self.chamar_por_alguem, width=27, height=2)
+        botao_b.place(relx=0.500, rely=0.6, anchor="center")
+
+        botao_c = tk.Button(self.janela, text="C - Esperar em silêncio",fg="white", bg="#75010b", command=self.esperar_em_silencio, width=27, height=2)
+        botao_c.place(relx=0.800, rely=0.6, anchor="center")
+    
+
+    def investigacao_cela(self):
+        self.limpar_tela()
+        self.linhas()
+        self.botao_inicial()
+        texto1= f"{self.nome_jogador}, você começa a investigar a cela. Há rachaduras nas paredes e um pequeno buraco no chão."
+        label_texto1 = tk.Label(self.janela, text=texto1, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
+        label_texto1.place(relx=0.5, rely=0.2, anchor="center")
         
+    def chamar_por_alguem(self):
+        self.limpar_tela()
+        self.linhas()
+        self.botao_inicial()
+        texto2 = f"{self.nome_jogador}, você chama por alguém, mas só o silêncio responde."
+        label_texto2 = tk.Label(self.janela, text=texto2, fg="white", bg="#1a1a1a", font=("Helvetica", 14), wraplength=700, justify="left")
+        label_texto2.place(relx=0.5, rely=0.3, anchor="center")
+
+    def esperar_em_silencio(self):
+        self.limpar_tela()
+        self.linhas()
+        self.botao_inicial()
+        texto3 = f"{self.nome_jogador}, você decide esperar em silêncio, sentindo o tempo passar lentamente."
+        label_texto3 = tk.Label(self.janela, text=texto3, fg="white", bg="#1a1a1a", font=("Helvetica", 14), wraplength=700, justify="left")
+        label_texto3.place(relx=0.5, rely=0.3, anchor="center")
+
+
+
+
+
+
+
+
 
 app = Application()
