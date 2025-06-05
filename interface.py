@@ -9,6 +9,7 @@ class Application:
         tk.mainloop()
 
     def tela(self):
+<<<<<<< HEAD
         self.janela.title("Jogo de Escolhas")
         self.janela.geometry("788x588")
         self.janela.configure(background="#1a1a1a")
@@ -26,10 +27,44 @@ class Application:
 
         self.label_boas_vindas = None
 
+=======
+        #configs da tela
+        self.janela.title("Jogo de Escolhas") #titulo da janela
+        self.janela.geometry("788x588") #tamanho da janela ao abrir     
+        self.janela.configure(background="#1a1a1a" ) #cor de fundo da janeka
+        self.janela.resizable(True, True) #tela responsiva tanto horizontalmente como verticalmente
+        self.janela.maxsize(width=1520,height= 900) #tamanho maximo da tela
+        self.janela.minsize(width=488,height= 388) #tamanho minimo da tela
+        
+        #criação de textos
+        self.mensagem_inicial = tk.StringVar() #voce foi preso  
+        self.nome_jog = tk.StringVar() #campo_nome (digite o seu nome)
+        self.boas_vindas = tk.StringVar()
+        self.nome_mensagem= tk.StringVar()
+        self.texto=tk.StringVar()
+        self.barras=tk.StringVar()
+        self.barras2=tk.StringVar()
+       
+      
+        # Variáveis para o efeito de digitação
+        self.texto_completo = ""
+        self.texto_atual = ""
+        self.indice_char = 0
+        self.after_id = None
+        
+        #nones
+        self.label_boas_vindas= None
+        
+    #limpar a tela
+>>>>>>> e5071a0bd1a0f709ddac9a34d992d1059821445c
     def limpar_tela(self):
         for widget in self.janela.winfo_children():
             widget.destroy()
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> e5071a0bd1a0f709ddac9a34d992d1059821445c
     def intro(self):
         self.mensagem_inicial.set(" VOCÊ FOI PRESO ")
         label_intro = tk.Label(self.janela, textvariable=self.mensagem_inicial, fg="red", bg="#1a1a1a", font=("Impact", 45, "bold"), wraplength=800, justify="left")
@@ -48,12 +83,32 @@ class Application:
         linha_lat2.place(relx=0.5, rely=0.99, anchor="center")
         linha_lat3 = tk.Frame(self.janela, bg="#a50b0b", width=15, height=1537)
         linha_lat3.place(relx=0.01, rely=0.4, anchor="e")
+<<<<<<< HEAD
         linha_lat3 = tk.Frame(self.janela, bg="#a50b0b", width=15, height=1537)
         linha_lat3.place(relx=0.99, rely=0.4, anchor="w")
         botao_start = tk.Button(self.janela, text="▶ START", width=20, height=2, fg="white", bg="red", command=self.mostrar_campo_nome, font=("Consolas", 16, "bold"))
         botao_start.place(relx=0.5, rely=0.650, anchor="center")
         botao_start.bind("<Enter>", self.on_enter)
         botao_start.bind("<Leave>", self.on_leave)
+=======
+        #barras laterais 4
+        linha_lat4= tk.Frame(self.janela, bg="#a50b0b", width=15, height=1537)
+        linha_lat4.place(relx=0.99, rely=0.4, anchor="w")
+        #BOTAO START
+        botao_start = tk.Button(self.janela, text= "▶ START", width=20, height=2,fg= "white",bg="red", command=self.mostrar_campo_nome, font=("Consolas", 16, "bold"))
+        botao_start.place(relx=0.5, rely=0.650, anchor="center")
+        botao_start.bind("<Enter>", self.on_enter)
+        botao_start.bind("<Leave>", self.on_leave)
+        #TEXTO INFERIOR
+        texto_inf = tk.Label(self.janela, text="Suas escolhas moldarão o caminho. Cuidado... cada decisão pode te aproximar da verdade — ou do fim.", fg="white", bg="#1a1a1a", font=("Lucida Console", 8, "italic"), wraplength=500)
+        texto_inf.place(relx=0.5, rely=0.9, anchor="center")
+        
+    #hover do botao de start
+    def on_enter(self, event):
+        event.widget.config(bg="#701b1b", fg="white")  # vermelho mais claro ao passar o      
+    def on_leave(self, event):
+        event.widget.config(bg="red", fg="white")  # volta ao normal
+>>>>>>> e5071a0bd1a0f709ddac9a34d992d1059821445c
 
     def on_enter(self, event):
         event.widget.config(bg="#701b1b", fg="white")
@@ -62,7 +117,11 @@ class Application:
         event.widget.config(bg="red", fg="white")
 
     def botao_inicial(self):
+<<<<<<< HEAD
         botao_volta_inicio = tk.Button(self.janela, text="Volte para tela inicial", command=self.voltar_para_inicio, font=("Helvetica", 14), bg="#222", fg="white")
+=======
+        botao_volta_inicio = tk.Button(self.janela, text="Volte para tela inicial", command= self.voltar_para_inicio, font=("Helvetica", 14), bg="red", fg="white")
+>>>>>>> e5071a0bd1a0f709ddac9a34d992d1059821445c
         botao_volta_inicio.place(relx=0.5, rely=0.9, anchor="center")
 
     def voltar_para_inicio(self):
@@ -73,6 +132,7 @@ class Application:
         self.limpar_tela()
         self.botao_inicial()
 
+<<<<<<< HEAD
         self.texto.set("DIGITE O NOME DO SEU PERSONAGEM:")
         label_texto = tk.Label(self.janela, textvariable=self.texto, fg="red", bg="#1a1a1a", font=("Impact", 27), wraplength=800, justify="center")
         label_texto.place(relx=0.5, rely=0.2, anchor="center")
@@ -82,10 +142,27 @@ class Application:
         self.entry_nome.place(relx=0.5, rely=0.4, anchor="center")
 
         self.botao_confirmar = tk.Button(self.janela, text="Confirmar nome", command=self.pegar_nome, font=("Helvetica", 14), bg="#222", fg="white")
+=======
+        #mensagem informando o usuario a digitar o nome
+        self.texto.set("⛓️ DIGITE O NOME DO SEU PERSONAGEM ⛓️")
+        label_texto = tk.Label(self.janela, textvariable=self.texto, fg="red", bg="#1a1a1a", font=("Impact", 27), wraplength=800, justify="center")
+        label_texto.place(relx=0.5, rely=0.1, anchor="center") 
+        self.nome_mensagem.set("")
+
+        # entry 
+        fundo2 = tk.Frame(self.janela, bg="red", width=1530, height=150)
+        fundo2.place(relx=0.5, rely=0.457, anchor="center")
+        self.entry_nome = tk.Entry(self.janela, textvariable=self.nome_mensagem, fg="red", bg="#1a1a1a", font=("Helvetica", 14), justify="center", insertbackground="red")
+        self.entry_nome.place(relx=0.5, rely=0.4, anchor="center")
+        
+        #botao de confirmar
+        self.botao_confirmar = tk.Button(self.janela, text="Confirmar nome", command=self.pegar_nome, font=("Helvetica", 14), bg="red", fg="white")
+>>>>>>> e5071a0bd1a0f709ddac9a34d992d1059821445c
         self.botao_confirmar.place(relx=0.5, rely=0.470, anchor="center")
 
     def pegar_nome(self):
         nome_digitado = self.nome_mensagem.get()
+<<<<<<< HEAD
         self.boas_vindas.set(f"Olá, {nome_digitado}. Bem-vindo(a) à sua nova realidade: uma cela fria e silenciosa. Você foi preso(a)... mas não sabe exatamente por quê. Suas escolhas daqui em diante serão cruciais. Cada decisão pode te levar à liberdade — ou te condenar para sempre. Está pronta para enfrentar as sombras dessa prisão?")
         if self.label_boas_vindas is None:
             self.label_boas_vindas = tk.Label(self.janela, textvariable=self.boas_vindas, fg="white", bg="red", font=("Impact", 14), wraplength=700, justify="center")
@@ -135,3 +212,43 @@ class Application:
 
 
 app = Application()
+=======
+        self.texto_completo= (f"Olá, {nome_digitado}. Bem-vindo(a) à sua nova realidade: uma cela fria e silenciosa. Você foi preso(a)... mas não sabe exatamente por quê. Suas escolhas daqui em diante serão cruciais. Cada decisão pode te levar à liberdade — ou te condenar para sempre. Está pronta para enfrentar as sombras dessa prisão?")
+
+        # Criar a label para texto animado
+        if self.label_boas_vindas is None:
+            self.label_boas_vindas = tk.Label(self.janela, text="", fg="white", bg="#1a1a1a",font=("Courier New", 11), wraplength=700, justify="center")
+            self.label_boas_vindas.place(relx=0.5, rely=0.7, anchor="center")
+            
+        # Resetar variáveis para nova animação
+        self.texto_atual = ""
+        self.indice_char = 0
+        
+        # Iniciar o efeito de digitação
+        self.animar_digitacao()
+        
+    def animar_digitacao(self):
+        if self.indice_char < len(self.texto_completo):
+            # Adicionar o próximo caractere
+            self.texto_atual += self.texto_completo[self.indice_char]
+            self.indice_char += 1
+            
+            # Atualizar o texto no label
+            self.label_boas_vindas.config(text=self.texto_atual)
+            
+            # Velocidade da digitação (menor = mais rápido)
+            velocidade = 50  # milissegundos entre cada caractere
+            
+            # Pausa mais longa em pontuações para dar ritmo
+            if self.texto_completo[self.indice_char - 1] in '.!?':
+                velocidade = 300
+            elif self.texto_completo[self.indice_char - 1] in ',;:':
+                velocidade = 150
+            
+            # Agendar próxima atualização
+            self.after_id = self.janela.after(velocidade, self.animar_digitacao)
+
+        
+
+app = Application()
+>>>>>>> e5071a0bd1a0f709ddac9a34d992d1059821445c
