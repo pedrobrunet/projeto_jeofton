@@ -471,7 +471,7 @@ class Application:
         label = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=700, justify="left")
         label.place(relx=0.5, rely=0.5, anchor="center")
         
-        botao_interagir_guarda= tk.Button(self.janela, text="A - Tentar acalmar o guarda e pedir informações", fg="white", bg="#75010b", command= self.interagir_guarda, width=37, height=2)
+        botao_interagir_guarda= tk.Button(self.janela, text="A - Tentar acalmar o guarda \n e pedir informações", fg="white", bg="#75010b", command= self.interagir_guarda, width=37, height=2)
         botao_interagir_guarda.place(relx=0.3, rely=0.7, anchor="center")
 
         botao_conflito_guarda = tk.Button(self.janela, text="B - Desafiar o guarda e exigir seus direitos", fg="white", bg="#75010b", command= self.conflito_guarda, width=37, height=2)
