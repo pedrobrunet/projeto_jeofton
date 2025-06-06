@@ -1,4 +1,7 @@
-from historia import limpar_tela, digitar_red, digitar_pink, digitar, introducao_jogo, aviso_inicial, nivel_um
+from historia import (
+    limpar_tela, digitar_red, digitar_pink, digitar,
+    introducao_jogo, aviso_inicial, nivel_um
+)
 
 def main():
     limpar_tela()

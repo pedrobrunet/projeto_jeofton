@@ -182,6 +182,7 @@ class Application:
             f"Atrás de um tijolo solto, encontra um bilhete amassado. "
             f"Confie em ninguém. A saída está sob seus pés. "
             f"Você sente o chão tremer levemente... algo está escondido ali.")
+
         label_texto1 = tk.Label(self.janela, text=texto1, fg="white", bg="#1a1a1a", font=("Impact", 17), wraplength=700,
                                 justify="left")
         label_texto1.place(relx=0.5, rely=0.2, anchor="center")
