@@ -1,3 +1,4 @@
+
 from historia import (
     limpar_tela, digitar_red, digitar_pink, digitar,
     introducao_jogo, aviso_inicial, nivel_um
@@ -11,7 +12,6 @@ def main():
     introducao_jogo(nome)
     aviso_inicial(nome)
     limpar_tela()
-    digitar_pink("\n=== NÍVEL 1 ===")
     nivel_um(nome)
 
 if __name__ == "__main__":

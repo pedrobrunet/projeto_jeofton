@@ -34,6 +34,7 @@ def introducao_jogo(nome):
     input("Pressione 'Enter' para continuar")
 
 def aviso_inicial(nome):
+    limpar_tela()
     digitar(f"⚠️  AVISO IMPORTANTE, {nome}!")
     digitar("As decisões que você tomar a partir de agora influenciarão diretamente sua trajetória.")
     digitar("Não há escolhas certas ou erradas — apenas consequências.")
@@ -61,7 +62,7 @@ def escolha_nivel_um(nome):
             reacao_chamado(nome)
             break
         elif escolha == 'C':
-            observacao_ambiente(nome)
+            observar_ambiente(nome)
             break
         else:
             digitar_red("Escolha inválida. Tente novamente.")
