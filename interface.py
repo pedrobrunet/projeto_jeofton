@@ -129,7 +129,8 @@ class Application:
         self.texto_atual = ""
         self.indice_char = 0
         self.animar_digitacao()
-
+        
+    #animação de textos
     def animar_digitacao(self):
         if self.indice_char < len(self.texto_completo):
             self.texto_atual += self.texto_completo[self.indice_char]
@@ -146,6 +147,32 @@ class Application:
 
             self.after_id = self.janela.after(velocidade, self.animar_digitacao)
 
+    def animar_digitacao_geral(self, texto_completo, label_destino, velocidade_base=70):
+        self.texto_completo = texto_completo
+        self.texto_atual = ""
+        self.indice_char = 0
+        self.label_atual = label_destino
+        self.velocidade_base = velocidade_base
+        self.label_atual.config(text="")
+        self._processar_digitacao()
+    
+    def _processar_digitacao(self):
+        if self.indice_char < len(self.texto_completo):
+            char_atual = self.texto_completo[self.indice_char]
+            self.texto_atual += char_atual
+            self.indice_char += 1
+            self.label_atual.config(text=self.texto_atual)
+            velocidade = self.velocidade_base
+        
+            if char_atual in '.!?':
+                velocidade = 300
+            elif char_atual in ',;:':
+                velocidade = 150
+            elif char_atual == ' ':
+                velocidade = self.velocidade_base // 2  # Espaços mais rápidos
+            if self.indice_char < len(self.texto_completo):
+                self.after_id = self.janela.after(velocidade, self._processar_digitacao)
+        
     def mostrar_escolha_nivel_um(self):
         self.limpar_tela()
         self.linhas()
@@ -156,7 +183,8 @@ class Application:
         texto = "Você desperta em uma cela úmida e mal iluminada. O que deseja fazer?"
         label_texto = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
         label_texto.place(relx=0.5, rely=0.2, anchor="center")
-
+        self.animar_digitacao_geral(texto, label_texto)
+        
         botao_a = tk.Button(self.janela, text="A - Investigar a cela", fg="white", bg="#75010b", command=self.investigacao_cela, width=27, height=2)
         botao_a.place(relx=0.199, rely=0.6, anchor="center")
 
@@ -180,6 +208,7 @@ class Application:
 
         label_texto1 = tk.Label(self.janela, text=texto1, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
         label_texto1.place(relx=0.5, rely=0.3, anchor="center")
+        self.animar_digitacao_geral(texto1, label_texto1)
 
         botao_cavar = tk.Button(self.janela, text="A - Cavar Saida", fg="white", bg="#75010b", command=self.cavar_saida, width=27, height=2)
         botao_cavar.place(relx=0.3, rely=0.6, anchor="center")
@@ -200,12 +229,15 @@ class Application:
                  f" Antes de entrar, um outro prisioneiro o intercepta. Ele diz que quer ajudar, mas parece instável.")
         label_text_cavar = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
         label_text_cavar.place(relx=0.5, rely=0.3, anchor="center")
+        self.animar_digitacao_geral(texto, label_text_cavar)
 
         botao_companheiro = tk.Button(self.janela, text="A- Deixar ele vim junto", fg="white", bg="#75010b", command= self.companheiro_esgoto, width=27, height=2)
         botao_companheiro.place(relx=0.3, rely=0.6, anchor="center")
 
         botao_conflito = tk.Button(self.janela, text="B- Ameaçar Ele", fg="white", bg="#75010b", command= self.conflito_esgoto, width=27, height=2)
         botao_conflito.place(relx=0.7, rely=0.6, anchor="center")
+
+    
 
     def esperar_depois_bilhete(self):
         self.limpar_tela()
@@ -219,11 +251,14 @@ class Application:
         label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700,
                          justify="left")
         label.place(relx=0.5, rely=0.3, anchor="center")
+        
+
         botao_distracao_chaves= tk.Button(self.janela, text="A - Tentar uma distração\n para pegar as chaves", fg="white", bg="#75010b", command=self.distracao_chaves, width=30, height=2)
         botao_distracao_chaves.place(relx=0.3, rely=0.6, anchor="center")
 
         botao_observar_rotina_para_chaves= tk.Button(self.janela, text="B - Observar mais para encontrar\n uma rotina do guarda", fg="white", bg="#75010b", command=self.observar_rotina_para_chaves, width=30, height=2)
         botao_observar_rotina_para_chaves.place(relx=0.7, rely=0.6, anchor="center")
+        self.animar_digitacao_geral(texto, label)
         
     def distracao_chaves(self):
         self.limpar_tela()
@@ -237,11 +272,14 @@ class Application:
         label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700,
                          justify="left")
         label.place(relx=0.5, rely=0.3, anchor="center")
+        
+
         botao_correr_com_chaves= tk.Button(self.janela, text="A - Pegar as chaves e correr", fg="white", bg="#75010b", command=self.correr_com_chaves, width=27, height=2)
         botao_correr_com_chaves.place(relx=0.3, rely=0.6, anchor="center")
 
         botao_quase_pego= tk.Button(self.janela, text="B - Tentar disfarçar se\n o guarda perceber", fg="white", bg="#75010b", command=self.quase_pego, width=27, height=2)
         botao_quase_pego.place(relx=0.7, rely=0.6, anchor="center") 
+        self.animar_digitacao_geral(texto, label)
         
     def correr_com_chaves(self):
         self.limpar_tela()
@@ -258,6 +296,7 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
+        self.animar_digitacao_geral(texto, label)
         
     def quase_pego(self):
         self.limpar_tela()
@@ -266,13 +305,14 @@ class Application:
         titulo = "NÍVEL 5 - Quase Pego(a)"
         label_titulo = tk.Label(self.janela, text=titulo, fg="red", bg="#1a1a1a", font=("Impact", 17), justify="center")
         label_titulo.place(relx=0.5, rely=0.1, anchor="center")
-        fim = ("Você tenta disfarçar, mas o guarda percebe sua intenção. Ele te olha desconfiado, mas decide não fazer uma confusão maior. 'Fique na linha', ele diz, e se afasta.")
+        fim = ("☠️ Você tenta disfarçar, mas o guarda percebe sua intenção. Ele te olha desconfiado, mas decide não fazer uma confusão maior. 'Fique na linha', ele diz, e se afasta.")
         fim_label = tk.Label(self.janela, text=fim, font=("Impact", 17),wraplength=700, justify="left", fg="red", bg="#1a1a1a")
         fim_label.place(relx=0.5, rely=0.3, anchor="center") 
         self.botao_proximo = tk.Button(self.janela, text="Próximo", bg="#75010b", fg="white", command= self.galeria_oculta, width=30, height=2)   
         self.botao_proximo.place(relx=0.5, rely=0.5, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
+        self.animar_digitacao_geral(fim, fim_label)
          
     def observar_rotina_para_chaves(self):
         self.limpar_tela()
@@ -291,7 +331,7 @@ class Application:
 
         botao_investigar_cela_novamente_c4= tk.Button(self.janela, text="B - Observar mais para encontrar\n uma rotina do guarda", fg="white", bg="#75010b", command=self.investigar_cela_novamente_c4, width=30, height=2)
         botao_investigar_cela_novamente_c4.place(relx=0.7, rely=0.6, anchor="center")
-        
+        self.animar_digitacao_geral(texto, label)
    
         
     def pegar_chaves_bebedouro(self):
@@ -309,7 +349,7 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
-        
+        self.animar_digitacao_geral(texto, label)
         
     def investigar_cela_novamente_c4(self):
         self.limpar_tela()
@@ -325,7 +365,7 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
-        
+        self.animar_digitacao_geral(texto, label)
 
     def companheiro_esgoto(self):
         self.limpar_tela()
@@ -344,6 +384,7 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
+        self.animar_digitacao_geral(texto, label)
         
     def galeria_oculta(self):
         self.limpar_tela()
@@ -355,7 +396,7 @@ class Application:
         texto = "Você segue pela galeria úmida e encontra uma porta de manutenção antiga. Com esforço, consegue abri-la e se vê em um depósito com uniformes e mapas. Você está um passo mais perto da liberdade — mas o caminho ainda é longo. No mapa, três rotas são marcadas: uma pelo telhado, outra pelos esgotos, e uma terceira pelo pátio."
         label_texto = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
         label_texto.place(relx=0.5, rely=0.3, anchor="center")
-
+        self.animar_digitacao_geral(texto, label_texto)
         botao_a = tk.Button(self.janela, text="A - Tentar o telhado", fg="white", bg="#75010b", command=self.fuga_telhado, width=27, height=2)
         botao_a.place(relx=0.199, rely=0.6, anchor="center")
 
@@ -375,9 +416,11 @@ class Application:
         texto = (f"{self.nome_jogador}, você escala silenciosamente pelas tubulações até o topo. Evita refletores, atravessa o telhado e alcança o muro externo. Com um salto arriscado, você cai em uma mata densa.")
         label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
         label.place(relx=0.5, rely=0.3, anchor="center")
-        fim = ("VOCÊ CONSEGUIU! Agora está foragido, mas livre. O mundo lá fora te espera.")
-        fim_label = tk.Label(self.janela, text=fim, font=("Impact", 17),wraplength=700, justify="left", fg="red", bg="#1a1a1a")
-        fim_label.place(relx=0.5, rely=0.7, anchor="center")
+        fim = ("🏃 VOCÊ CONSEGUIU! Agora está foragido, mas livre. O mundo lá fora te espera.")
+        fim_label = tk.Label(self.janela, text=fim, font=("Impact", 17, "bold"),wraplength=700, justify="center", fg="green", bg="#1a1a1a")
+        fim_label.place(relx=0.5, rely=0.6, anchor="center")
+        self.animar_digitacao_geral(fim, fim_label)
+
         
     def armadilha_esgoto(self): 
         self.limpar_tela()
@@ -390,9 +433,11 @@ class Application:
         label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
         label.place(relx=0.5, rely=0.3, anchor="center")
         fim = ("FIM DE JOGO: Você foi recapturado inconsciente. Não haverá segunda chance.")
-        fim_label = tk.Label(self.janela, text=fim, font=("Impact", 17),wraplength=700, justify="left", fg="red", bg="#1a1a1a")
+        fim_label = tk.Label(self.janela, text=fim, font=("Impact", 17),wraplength=700, justify="center", fg="black", bg="red")
         fim_label.place(relx=0.5, rely=0.7, anchor="center")
-        
+        self.animar_digitacao_geral(fim, fim_label)
+
+
         
     def fuga_patio(self):
         self.limpar_tela()
@@ -404,9 +449,10 @@ class Application:
         texto = (f"{self.nome_jogador}, Disfarçado com um uniforme de faxineiro, você atravessa o pátio como se fosse parte da equipe. Troca palavras com um guarda simpático que não desconfia de nada. Ao passar pelos portões principais, um caminhão de mantimentos se prepara para sair. Você se esconde entre as caixas e espera. O motor ronca...")
         label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
         label.place(relx=0.5, rely=0.3, anchor="center")
-        fim = ("VOCÊ ESCAPOU! Agora é hora de recomeçar, longe dos muros que te prenderam.")
-        fim_label = tk.Label(self.janela, text=fim, font=("Impact", 17),wraplength=700, justify="left", fg="red", bg="#1a1a1a")
+        fim = ("🏃 VOCÊ ESCAPOU! Agora é hora de recomeçar, longe dos muros que te prenderam.")
+        fim_label = tk.Label(self.janela, text=fim, font=("Impact", 17),wraplength=700, justify="center", fg="green", bg="#1a1a1a")
         fim_label.place(relx=0.5, rely=0.7, anchor="center")
+        self.animar_digitacao_geral(fim, fim_label)
         
     def conflito_esgoto(self):
         self.limpar_tela()
@@ -418,7 +464,7 @@ class Application:
         texto = ("Você empurra o prisioneiro e segue sozinho pelos esgotos. Ele grita, alertando guardas por vingança. Alarmes disparam. Você corre desesperadamente até cair em uma câmara subterrânea. Lá, encontra um velho guarda desacordado com crachá e arma.")
         label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
         label.place(relx=0.5, rely=0.3, anchor="center")
-        
+        self.animar_digitacao_geral(texto, label)
         botao_cracha= tk.Button(self.janela, text="A - Usar o crachá para abrir portas", fg="white", bg="#75010b", command= self.usar_cracha, width=27, height=2)
         botao_cracha.place(relx=0.3, rely=0.6, anchor="center")
 
@@ -439,6 +485,7 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
+        self.animar_digitacao_geral(texto, label)
     
     def pegar_arma(self):
         self.limpar_tela()
@@ -453,6 +500,7 @@ class Application:
         fim = ("FIM DE JOGO: Você foi recapturado e será transferido para um setor de segurança máxima.")
         fim_label = tk.Label(self.janela, text=fim, font=("Impact", 20),wraplength=700, justify="left", bg="#1a1a1a",fg="red")
         fim_label.place(relx=0.5, rely=0.5, anchor="center")
+        self.animar_digitacao_geral(fim, fim_label)
         
     
     def chamar_por_alguem(self):
@@ -467,10 +515,12 @@ class Application:
         label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
         label.place(relx=0.5, rely=0.3, anchor="center")
         
-        dialogo= (f'Guarda: "Qual o problema, {self.nome_jogador}? Quer mais tempo aqui?" Como você responde?')
-        label = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=700, justify="left")
-        label.place(relx=0.5, rely=0.5, anchor="center")
-        
+        dialogo= (f'Guarda: "Qual o problema, {self.nome_jogador}? Quer mais tempo aqui?"\nComo você responde?')
+        label1 = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=700, justify="left")
+        label1.place(relx=0.5, rely=0.5, anchor="center")
+        self.animar_digitacao_geral(dialogo, label1)
+
+
         botao_interagir_guarda= tk.Button(self.janela, text="A - Tentar acalmar o guarda \n e pedir informações", fg="white", bg="#75010b", command= self.interagir_guarda, width=37, height=2)
         botao_interagir_guarda.place(relx=0.3, rely=0.7, anchor="center")
 
@@ -490,14 +540,15 @@ class Application:
         label.place(relx=0.5, rely=0.3, anchor="center")
         
         dialogo= ('Guarda: "Inocente? Todos dizem isso. Mas o que você está fazendo aqui então?"\n Ele parece um pouco curioso. Você sente que pode conseguir algo dele.')
-        label = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=650, justify="left")
-        label.place(relx=0.5, rely=0.5, anchor="center")
+        label1 = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=650, justify="left")
+        label1.place(relx=0.5, rely=0.5, anchor="center")
         
         botao_oferecer_suborno= tk.Button(self.janela, text="A - Oferecer algo em troca de\n ajuda (se tiver algo de valor)", fg="white", bg="#75010b", command= self.oferecer_suborno, width=30, height=2)
         botao_oferecer_suborno.place(relx=0.3, rely=0.7, anchor="center")
 
         botao_argumentar_inocencia = tk.Button(self.janela, text="B - Tentar convencê-lo de sua\n inocência com mais detalhes", fg="white", bg="#75010b", command= self.conflito_guarda, width=30,  height=2)
         botao_argumentar_inocencia.place(relx=0.7, rely=0.7, anchor="center")
+        self.animar_digitacao_geral(dialogo, label1)        
         
     def conflito_guarda(self):
         self.limpar_tela()
@@ -512,14 +563,16 @@ class Application:
         label.place(relx=0.5, rely=0.3, anchor="center")
         
         dialogo= (f'Guarda: "Direitos? Aqui, seus direitos são ficar calado e obedecer! Quer problemas, {self.nome_jogador}?"\n Ele saca o cassetete, pronto para usar a força.')
-        label = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=700, justify="left")
-        label.place(relx=0.5, rely=0.5, anchor="center")
+        label1 = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=700, justify="left")
+        label1.place(relx=0.5, rely=0.5, anchor="center")
         
         botao_recuar_conflito= tk.Button(self.janela, text="A - Recuar e tentar acalmar a situação", fg="white", bg="#75010b", command= self.recuar_conflito, width=30, height=2)
         botao_recuar_conflito.place(relx=0.3, rely=0.7, anchor="center")
 
         botao_provocar_guarda = tk.Button(self.janela, text="B - Provocá-lo ainda mais, buscando\n uma reação exagerada", fg="white", bg="#75010b", command= self.provocar_guarda, width=30, height=2)
         botao_provocar_guarda.place(relx=0.7, rely=0.7, anchor="center")
+        self.animar_digitacao_geral(dialogo, label1)
+        
         
     def provocar_guarda(self):
         self.limpar_tela()
@@ -534,14 +587,15 @@ class Application:
         label.place(relx=0.5, rely=0.3, anchor="center")
         
         dialogo= ('Guarda: "Ah, é assim? Quer brincar, é?" Ele abre a porta da cela, entra furioso e te empurra contra a parede. Mas ao fazer isso, ele deixa cair sua arma (um spray de pimenta) e o rádio.')
-        label = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=700, justify="left")
-        label.place(relx=0.5, rely=0.5, anchor="center")
+        label1 = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=700, justify="left")
+        label1.place(relx=0.5, rely=0.5, anchor="center")
         
         botao_usar_spray_pimenta= tk.Button(self.janela, text="A - Pegar o spray de pimenta\n e incapacitá-lo", fg="white", bg="#75010b", command= self.usar_spray_pimenta, width=30, height=2)
         botao_usar_spray_pimenta.place(relx=0.3, rely=0.7, anchor="center")
 
         botao_digitar_red = tk.Button(self.janela, text="B - Pegar o rádio e tentar pedir ajuda\n externa ou alertar a prisão", fg="white", bg="#75010b", command= self.digitar_red, width=30, height=2)
         botao_digitar_red.place(relx=0.7, rely=0.7, anchor="center")
+        self.animar_digitacao_geral(dialogo, label1)
         
     def usar_spray_pimenta(self):
         self.limpar_tela()
@@ -557,6 +611,7 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
+        self.animar_digitacao_geral(texto, label)
     
     def digitar_red(self):
         self.limpar_tela()
@@ -565,6 +620,7 @@ class Application:
         texto = "FIM DE JOGO: Sua tentativa com o rádio alertou a todos. Você foi encurralado(a) e recapturado(a) sem chance."
         label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 20), wraplength=700, justify="left")
         label.place(relx=0.5, rely=0.5, anchor="center")  
+        self.animar_digitacao_geral(texto, label)
          
     def recuar_conflito(self):
         self.limpar_tela()
@@ -579,8 +635,8 @@ class Application:
         label.place(relx=0.5, rely=0.3, anchor="center")
         
         dialogo= ('Guarda: "É bom mesmo. Fique na sua, ou as coisas vão piorar para você."')
-        label = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=700, justify="left")
-        label.place(relx=0.5, rely=0.4, anchor="center")
+        label1 = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=700, justify="left")
+        label1.place(relx=0.5, rely=0.4, anchor="center")
         
         texto = "Ele se afasta, mas agora você está em sua lista negra. Ele te observará mais de perto. Você precisa encontrar uma forma de sair sem ser detectado ou enfrentar esse guarda novamente."
         label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
@@ -591,6 +647,9 @@ class Application:
 
         botao_esperar_troca_turno = tk.Button(self.janela, text="B - Esperar pela troca de turno e\n tentar a sorte com outro guarda", fg="white", bg="#75010b", command= self.esperar_troca_turno, width=30, height=2)
         botao_esperar_troca_turno.place(relx=0.7, rely=0.7, anchor="center")
+        
+        self.animar_digitacao_geral(dialogo, label1)
+
         
     def procurar_item_guarda(self):
         self.limpar_tela()
@@ -606,6 +665,8 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
+        self.animar_digitacao_geral(texto, label)
+
         
     def esperar_troca_turno(self):
         self.limpar_tela()
@@ -621,6 +682,8 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
+        self.animar_digitacao_geral(texto, label)
+
         
     def oferecer_suborno(self):
         self.limpar_tela()
@@ -635,14 +698,15 @@ class Application:
         label.place(relx=0.5, rely=0.3, anchor="center")
         
         dialogo= ('Guarda: "Interessante... O que você quer, exatamente?"')
-        label = tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=700, justify="left")
-        label.place(relx=0.5, rely=0.5, anchor="center")
+        label1= tk.Label(self.janela, text=dialogo, fg="#de4710", bg="#1a1a1a", font=("Impact", 14), wraplength=700, justify="left")
+        label1.place(relx=0.5, rely=0.5, anchor="center")
         
         botao_cela_destrancada_suborno= tk.Button(self.janela, text="A - Pedir para ele 'esquecer' sua cela\n destrancada na próxima ronda", fg="white", bg="#75010b", command= self.cela_destrancada_suborno, width=30, height=2)
         botao_cela_destrancada_suborno.place(relx=0.3, rely=0.7, anchor="center")
 
         botao_informacao_rota_suborno = tk.Button(self.janela, text="B - Pedir informações sobre\n uma rota de fuga segura", fg="white", bg="#75010b", command= self.informacao_rota_suborno, width=30, height=2)
         botao_informacao_rota_suborno.place(relx=0.7, rely=0.7, anchor="center")
+        self.animar_digitacao_geral(dialogo, label1)
         
     def cela_destrancada_suborno(self):
         self.limpar_tela()
@@ -658,6 +722,7 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
+        self.animar_digitacao_geral(texto, label)
         
     def informacao_rota_suborno(self):
         self.limpar_tela()
@@ -673,6 +738,7 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
+        self.animar_digitacao_geral(texto, label)
         
     def observar_ambiente(self):
         self.limpar_tela()
@@ -691,6 +757,7 @@ class Application:
 
         botao_observar_rotina_guarda = tk.Button(self.janela, text="B - Focar na rotina dos guardas e buscar\n uma oportunidade", fg="white", bg="#75010b", command= self.observar_rotina_guarda, width=30, height=2)
         botao_observar_rotina_guarda.place(relx=0.7, rely=0.7, anchor="center")
+        self.animar_digitacao_geral(texto, label)
 
     def ouvir_conversa_cela(self):
         self.limpar_tela()
@@ -709,6 +776,7 @@ class Application:
 
         botao_ignorar_e_observar = tk.Button(self.janela, text="B - Ignorar a conversa e focar na\n sua própria fuga", fg="white", bg="#75010b", command= self.ignorar_e_observar, width=30, height=2)
         botao_ignorar_e_observar.place(relx=0.7, rely=0.7, anchor="center")
+        self.animar_digitacao_geral(texto, label)
 
     def comunicar_vizinho(self):
         self.limpar_tela()
@@ -727,14 +795,16 @@ class Application:
 
         digitar_red2 = tk.Button(self.janela, text="B - Focar em distrair o guarda \nnegligente para pegar a chave", fg="white", bg="#75010b", command= self.digitar_red2, width=30, height=2)
         digitar_red2.place(relx=0.7, rely=0.7, anchor="center")
+        self.animar_digitacao_geral(texto, label)
 
     def digitar_red2(self):
         self.limpar_tela()
         self.linhas()
         self.botao_inicial()
         texto = "FIM DE JOGO: O guarda negligente não era tão negligente assim. Você foi pego(a) tentando roubar e acabou em segurança máxima."
-        label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 20), wraplength=700, justify="left")
-        label.place(relx=0.5, rely=0.5, anchor="center")  
+        label = tk.Label(self.janela, text=texto, fg="black", bg="red", font=("Impact", 20), wraplength=700, justify="center")
+        label.place(relx=0.5, rely=0.5, anchor="center")
+        self.animar_digitacao_geral(texto, label)  
         
     def limpar_tunel_ajuda(self):
         self.limpar_tela()
@@ -750,7 +820,8 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
-        
+        self.animar_digitacao_geral(texto, label)
+                
     def ignorar_e_observar(self):
         self.limpar_tela()
         self.linhas()
@@ -768,6 +839,7 @@ class Application:
 
         botao_buscar_rota_menos_risco = tk.Button(self.janela, text="B - Ignorar e buscar uma rota\n de fuga menos arriscada", fg="white", bg="#75010b", command= self.buscar_rota_menos_risco, width=30, height=2)
         botao_buscar_rota_menos_risco.place(relx=0.7, rely=0.7, anchor="center")
+        self.animar_digitacao_geral(texto, label)
 
     def buscar_rota_menos_risco(self):
         self.limpar_tela()
@@ -784,7 +856,8 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
-        
+        self.animar_digitacao_geral(texto, label)
+
     def pegar_isqueiro_distracao(self):
         self.limpar_tela()
         self.linhas()
@@ -800,7 +873,8 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
-        
+        self.animar_digitacao_geral(texto, label)
+
     def observar_rotina_guarda(self):
         self.limpar_tela()
         self.linhas()
@@ -818,6 +892,7 @@ class Application:
 
         botao_buscar_ferramenta_cela = tk.Button(self.janela, text="B - Buscar uma ferramenta para arrombar\n algo na cela durante essa janela", fg="white", bg="#75010b", command= self.buscar_ferramenta_cela, width=33, height=2)
         botao_buscar_ferramenta_cela.place(relx=0.7, rely=0.7, anchor="center")
+        self.animar_digitacao_geral(texto, label)   
     
     def buscar_ferramenta_cela(self):
         self.limpar_tela()
@@ -826,17 +901,15 @@ class Application:
         titulo = "NÍVEL 4 - Ferramenta Improvável" 
         label_titulo = tk.Label(self.janela, text=titulo, fg="red", bg="#1a1a1a", font=("Impact", 17), justify="center")
         label_titulo.place(relx=0.5, rely=0.1, anchor="center")
-        
         texto = "Você procura algo na cela que possa servir de ferramenta durante a janela de atraso do guarda. Atrás do vaso sanitário, encontra um pedaço de metal afiado, provavelmente de um antigo encanamento. É pequeno, mas pode ser útil. No momento exato do atraso do guarda, você se posiciona para usar a ferramenta."
         label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
         label.place(relx=0.5, rely=0.3, anchor="center")
-        
         digitar_red3 = tk.Button(self.janela, text="A - Usar o pedaço de metal para\n tentar serrar as grades da cela", fg="white", bg="#75010b", command= self.digitar_red3, width=30, height=2)
         digitar_red3.place(relx=0.3, rely=0.7, anchor="center")
-        
         botao_limpar_tunel_ajuda = tk.Button(self.janela, text="B - Usar o pedaço de metal para\n tentar forçar a fechadura da cela", fg="white", bg="#75010b", command= self.forcar_fechadura_metal, width=30, height=2)
         botao_limpar_tunel_ajuda.place(relx=0.7, rely=0.7, anchor="center")
-        
+        self.animar_digitacao_geral(texto, label)
+
     def forcar_fechadura_metal(self):
         self.limpar_tela()
         self.linhas()
@@ -851,15 +924,17 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
+        self.animar_digitacao_geral(texto, label)
 
     def digitar_red3(self):
         self.limpar_tela()
         self.linhas()
         self.botao_inicial()
         texto = ("FIM DE JOGO: O som das grades foi sua ruína. Você foi pego(a) e seus esforços foram em vão.")
-        label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 20), wraplength=700, justify="left")
+        label = tk.Label(self.janela, text=texto, fg="black", bg="red", font=("Impact", 20), wraplength=700, justify="center")
         label.place(relx=0.5, rely=0.5, anchor="center")
-    
+        self.animar_digitacao_geral(texto, label) 
+           
     def preparar_distracao(self):
         self.limpar_tela()
         self.linhas()
@@ -868,16 +943,14 @@ class Application:
         label_titulo = tk.Label(self.janela, text=titulo, fg="red", bg="#1a1a1a", font=("Impact", 17), justify="center")
         label_titulo.place(relx=0.5, rely=0.1, anchor="center")
         texto = "Você usa um pedaço de pano da sua coberta e alguns restos de comida para criar um pequeno 'barulho' ou 'cheiro' suspeito perto da grade da sua cela. Quando o guarda passa com seu atraso habitual, a distração funciona! Ele para para investigar o barulho, se afastando do seu posto por um momento. Isso cria uma janela de oportunidade para você agir."
-        label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700,
-                         justify="left")
+        label = tk.Label(self.janela, text=texto, fg="red", bg="#1a1a1a", font=("Impact", 17), wraplength=700, justify="left")
         label.place(relx=0.5, rely=0.3, anchor="center")
-        
         botao_arrombar_fechadura= tk.Button(self.janela, text="A - Tentar arrombar a fechadura\n da sua cela rapidamente", fg="white", bg="#75010b", command= self.arrombar_fechadura, width=30, height=2)
         botao_arrombar_fechadura.place(relx=0.3, rely=0.7, anchor="center")
-
         botao_rastejar_fresta_chao = tk.Button(self.janela, text="B - Usar o momento para rastejar\n para fora da cela por uma fresta no chão", fg="white", bg="#75010b", command= self.rastejar_fresta_chao, width=30, height=2)
         botao_rastejar_fresta_chao.place(relx=0.7, rely=0.7, anchor="center")
-    
+        self.animar_digitacao_geral(texto, label)
+            
     def arrombar_fechadura(self):
         self.limpar_tela()
         self.linhas()
@@ -892,6 +965,7 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
+        self.animar_digitacao_geral(texto, label)
         
     def rastejar_fresta_chao(self):
         self.limpar_tela()
@@ -907,6 +981,7 @@ class Application:
         self.botao_proximo.place(relx=0.5, rely=0.6, anchor="center")
         self.botao_proximo.bind("<Enter>", self.on_enter)
         self.botao_proximo.bind("<Leave>", self.on_leave)
-        
+        self.animar_digitacao_geral(texto, label) 
+               
 if __name__ == "__main__":
     app = Application()
