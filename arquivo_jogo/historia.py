@@ -1,6 +1,3 @@
-
-# play.py
-
 import time
 import os
 from rich.console import Console
